@@ -4,6 +4,7 @@ import Day from "../../Day/day";
 import Button from "../../../components/UI/Button/button";
 import Modal from "../../../components/UI/Modal/modal";
 import day from "../../Day/day";
+import { Redirect } from "react-router";
 
 class MenuCreation extends Component {
   state = {
@@ -59,6 +60,7 @@ class MenuCreation extends Component {
     },
     weekOrderCount: 0,
     totalOrder: "",
+    selectedDay: "",
   };
 
   openModalHandler = () => {
@@ -102,11 +104,20 @@ class MenuCreation extends Component {
   };
 
   sendOrderHandler = () => {
-    const state = { ...this.state.totalOrder };
+    // const state = this.state.totalOrder;
+    // const dayToCalc = this.state.dayNumber.selectedDate
     this.props.history.push({
       pathname: "/results",
-      state: { order: state },
+      state: {
+        order: this.state.totalOrder,
+        day: this.state.selectedDate,
+      },
     });
+  };
+
+  hadleDayChange = (e) => {
+    let num = e.target.value;
+    this.setState({ selectedDate: num });
   };
 
   render() {
@@ -114,8 +125,7 @@ class MenuCreation extends Component {
     let togglePrev = false;
     let toggleNext = false;
     let toggleOrderButton = true;
-    console.log(toggleOrderButton);
-    if (this.state.totalOrder.length / 2 === 14) {
+    if (this.state.totalOrder.length / 2 === 4) {
       toggleOrderButton = false;
     }
 
@@ -176,12 +186,24 @@ class MenuCreation extends Component {
             Your order so far:
             <p>{this.state.totalOrder}</p>
           </div>
+
+          <form>
+            <label htmlFor="dayNum"> Choose a day</label>
+            <input
+              type="number"
+              id="dayNum"
+              name="dayNum"
+              min="1"
+              max="20"
+              onChange={this.hadleDayChange}
+            ></input>
+          </form>
           <Button
             btnType={"Danger"}
             clicked={this.sendOrderHandler}
             disabled={toggleOrderButton}
           >
-            Order
+            submit
           </Button>
         </Modal>
       </div>
