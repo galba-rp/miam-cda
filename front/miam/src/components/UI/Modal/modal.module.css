@@ -1,32 +1,50 @@
-.Show{
-    max-width: 400px;
+.Main{
+    max-width: 500px;
     height: auto;
-    position: absolute;
-    background: #bebebe;
+    background: #faf8f8;
     border: 1px solid grey;
-    left: 25%;
-    top: 30%;
     padding: 20px;
     z-index: 100;
+    margin: 20vh auto 0;
+    animation: modal 2s ease-in;
+    position: relative;
+}
+.Calculate{
+    max-width: 500px;
+    height: auto;
+    background: #faf8f8;
+    border: 1px solid grey;
+    padding: 20px;
+    z-index: 100;
+    animation: modal 2s ease-in;
+    position: relative;
+    margin: 20px auto 0;
 }
 
+.Result{
+    max-width: 400px;
+    height: auto;
+    background: #faf8f8;
+    border: 1px solid grey;
+    padding: 20px;
+    z-index: 100;
+    animation: modal 2s ease-in;
+    position: relative;
+    margin: 20px auto 0;
+    top: -573px;
+    right: -500px;
+}
 .Hide{
     display: none;
 }
-
-.Select {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-}
-.Small{
-    width: 150px;
-    height: auto;
-    position: absolute;
-    background: #bebebe;
-    border: 1px solid grey;
-    left: 25%;
-    top: 30%;
-    padding: 20px;
-    z-index: 100;
+@keyframes modal {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 1;
+    }
 }

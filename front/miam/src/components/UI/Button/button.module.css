@@ -10,11 +10,6 @@
     font-weight: bold;
 }
 
-.Button:first-of-type {
-    margin-left: 0;
-    padding-left: 0;
-}
-
 .Button:disabled {
     color: rgb(139, 9, 9);
     cursor: not-allowed;
@@ -31,4 +26,17 @@
 .Neutral {
     background-color: #ccc;
     color: black;
+}
+
+.LargeButton{
+    background-color: rgb(113, 117, 121);
+    font-size: 3em;
+    padding: 20px;
+    border-radius: 5px;
+    font-family: 'Changa', cursive;
+}
+
+.LargeButton:hover{
+    
+    background-color:rgb(8, 184, 116);
 }

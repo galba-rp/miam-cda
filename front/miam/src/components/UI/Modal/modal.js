@@ -5,10 +5,8 @@ import Button from '../Button/button';
 const modal = (props) => {
     //console.log(props.show)
     return (
-        <div className={props.show ? classes.Show : classes.Hide}>
-         
+        <div className={props.show ? classes[props.modalType] : classes.Hide}>
               {props.children}
-            
           </div>
        
       );

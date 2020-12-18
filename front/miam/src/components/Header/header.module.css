@@ -1,0 +1,13 @@
+.Logo {
+    width: 125px;
+    height: auto; 
+    padding: 5px;
+    margin: 1em 0;
+    border-radius:  5px;
+    background-color: aliceblue;
+  }
+
+  .Header {
+      text-align: center;
+      background-color: rgb(200, 211, 221);
+  }

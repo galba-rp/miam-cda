@@ -1,5 +1,6 @@
 .Item  span{
     padding: 10px 10px;
+    font-size: 1.8em;
 }
 .Item  span:hover {
     cursor:pointer; 

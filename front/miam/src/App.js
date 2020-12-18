@@ -1,14 +1,19 @@
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Results from "./components/Results/results";
-import MenuCreation from "./containers/WelcomePage/MenuCreation/MenuCreation";
-import WelcomePage from "./containers/WelcomePage/WelcomePage";
+import MenuCreation from "./containers/MenuCreation/MenuCreation";
+import WelcomePage from "./containers/WelcomePage/welcomePage";
 import Layout from "./HOC/Layout/layout";
+import Header from "./components/Header/header";
 
 function App() {
   return (
     <Layout>
-      <Route path="/" exact component={MenuCreation} />
-      <Route path="/results" component={Results} />
+      <Header />
+      <Switch>
+        <Route path="/" exact component={WelcomePage} />
+        <Route path="/menu" component={MenuCreation} />
+        {/* <Route path="/results" component={Results} /> */}
+      </Switch>
     </Layout>
   );
 }
