@@ -6,6 +6,7 @@ import Modal from "../../components/UI/Modal/modal";
 import day from "../Day/day";
 import { Redirect } from "react-router";
 import Layout from "../../HOC/Layout/layout";
+import axios from "../../axios-miam";
 
 class MenuCreation extends Component {
   state = {
@@ -59,6 +60,7 @@ class MenuCreation extends Component {
     resultModal: false,
     totalOrder: "",
     selectedDay: 0,
+    dayTocalculate: 0,
     result: {
       lunch: "",
       dinner: "",
@@ -170,11 +172,37 @@ class MenuCreation extends Component {
     const order = this.state.totalOrder;
     const orderArray = [];
     const day = this.state.selectedDay;
-
     for (let i of order) {
-      orderArray.push(i);
+      if (i === "🍕") {
+        i = 1;
+        orderArray.push(i);
+      }
+      if (i === "🍣") {
+        i = 0;
+        orderArray.push(i);
+      }
+      if (i === "🥦") {
+        i = -1;
+        orderArray.push(i);
+      }
     }
-    this.menu(orderArray, day);
+
+    const food = {
+      order: orderArray,
+      day: this.state.selectedDay,
+    };
+
+    // for (let i of order) {
+    //   orderArray.push(i);
+    // }
+
+    axios
+      .post("/calc", food)
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
+
+    //this.menu(orderArray, day);
+    this.setState({ dayTocalculate: day });
     this.setState({ resultModal: true });
   };
 
@@ -190,7 +218,7 @@ class MenuCreation extends Component {
         if (
           day.lunch === "" ||
           day.dinner === "" ||
-          this.state.dayNumber.day === 6
+          this.state.dayNumber.day >= 6
         ) {
           return (toggleNext = true);
         }
@@ -202,23 +230,18 @@ class MenuCreation extends Component {
         return day.day;
       }
       // enable next  button to change the day if both meals of the day are ordered
-
       if (this.state.dayNumber.day === 0) {
-        //console.log(this.state.dayNumber);
         return (togglePrev = true);
       }
     });
 
     // checking if the whole week has been ordered to display Calculate modal
-    if (this.state.totalOrder.length === 28) {
+    if (this.state.totalOrder.length > 14) {
       calculateModal = true;
     }
 
     return (
       <Layout>
-        {/* <Button btnType={"Success"} clicked={this.openModalHandler}>
-          Are you ready
-        </Button> */}
         <Modal show={true} className={classes.Flex} modalType={"Main"}>
           <Day day={dayName} clicked={(meal) => this.mealChoiceHandler(meal)} />
           <div className={classes.Flex}>
@@ -244,21 +267,6 @@ class MenuCreation extends Component {
             Your order so far:
             <p className={classes.Order}>{this.state.totalOrder}</p>
           </div>
-
-          {/* <Button
-            btnType={"Danger"}
-            clicked={this.sendOrderHandler}
-            disabled={toggleOrderButton}
-          >
-            submit
-          </Button> */}
-          {/* <Button
-            btnType={"Danger"}
-            clicked={this.sendOrderHandler}
-            disabled={toggleOrderButton}
-          >
-            submit
-          </Button> */}
         </Modal>
         <Modal
           show={calculateModal}
@@ -272,7 +280,7 @@ class MenuCreation extends Component {
               id="dayNum"
               name="dayNum"
               min="1"
-              max="52"
+              max="53"
               onChange={(e) => this.handleDayChange(e)}
             ></input>
           </form>
@@ -280,7 +288,7 @@ class MenuCreation extends Component {
             btnType={"Danger"}
             clicked={this.calculateHandler}
             disabled={
-              this.state.selectedDay > 0 && this.state.selectedDay < 53
+              this.state.selectedDay > 0 && this.state.selectedDay < 54
                 ? false
                 : true
             }
@@ -293,7 +301,7 @@ class MenuCreation extends Component {
           className={classes.Flex}
           modalType={"Result"}
         >
-          <h2>Dans {this.state.dayNumber.day} jours tu vas manger</h2>
+          <h2>Dans {this.state.dayTocalculate} jours tu vas manger</h2>
           <p>
             {this.state.result.lunch} à midi et{this.state.result.dinner} le
             soir
