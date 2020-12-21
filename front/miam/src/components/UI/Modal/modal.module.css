@@ -1,50 +1,164 @@
-.Main{
-    max-width: 500px;
+.Modal{
+    max-width: 450px;
     height: auto;
-    background: #faf8f8;
+    background: rgb(200, 211, 221);
     border: 1px solid grey;
     padding: 20px;
     z-index: 100;
-    margin: 20vh auto 0;
-    animation: modal 2s ease-in;
     position: relative;
 }
-.Calculate{
-    max-width: 500px;
-    height: auto;
-    background: #faf8f8;
-    border: 1px solid grey;
-    padding: 20px;
-    z-index: 100;
+
+.Main{    
+    margin: 20vh auto 0;
     animation: modal 2s ease-in;
-    position: relative;
+}
+
+.MainAnimated{
+    margin: 20vh auto 0;
+    animation: move 1s ease-out;
+    animation-fill-mode: forwards;
+}
+
+.Calculate{
+    animation: modal 2s ease-in;
     margin: 20px auto 0;
 }
 
+.CalculateAnimated{
+    animation: move 1s ease-out;
+    margin: 20px auto 0;
+    animation-fill-mode: forwards;
+}
+
 .Result{
-    max-width: 400px;
+    max-width: 350px;
     height: auto;
-    background: #faf8f8;
+    background: rgb(200, 211, 221);
     border: 1px solid grey;
     padding: 20px;
     z-index: 100;
-    animation: modal 2s ease-in;
+    animation: modal 2s ease-in 1s forwards;
     position: relative;
     margin: 20px auto 0;
-    top: -573px;
-    right: -500px;
+    top: -620px;
+    right: -280px;
+    visibility: hidden;
 }
+.Result h2, h3{
+    font-family: 'Changa', sans-serif; 
+    font-size: 1.5em;
+}
+
 .Hide{
     display: none;
 }
+
 @keyframes modal {
     0% {
         opacity: 0;
+        visibility: visible;
     }
     50% {
         opacity: 0.8;
+        visibility: visible;
     }
     100% {
         opacity: 1;
+        visibility: visible;
+    }
+}
+
+@keyframes move {
+    0% {
+        left: 0px;
+    }
+    100% {
+        left: -230px;
+    }
+}
+
+ @media all and (max-width: 1024px){
+    .Modal{
+        max-width: 300px;
+        height: auto;   
+        background: rgb(200, 211, 221);
+        border: 1px solid grey;
+        padding: 10px;
+        z-index: 100;
+        position: relative;
+    }
+    
+    .Order{
+        font-size: 1em;
+    }
+
+    .Result{
+        max-width: 300px;
+        height: auto;
+        background: rgb(200, 211, 221);
+        border: 1px solid grey;
+        padding: 10px;
+        z-index: 100;
+        animation: modal 2s ease-in 1s forwards;
+        position: relative;
+        margin: 10px auto ;
+        visibility: hidden;
+        top: -638px;
+        right: -180px;
+    }
+    .Result h2, h3{
+        font-family: 'Changa', sans-serif; 
+        font-size: 1em;
+    }
+    @keyframes move {
+        0% {
+            left: 0px;
+        }
+        100% {
+            left: -160px;
+        }
+    }
+}
+
+@media all and (max-width: 720px){
+    .Modal{
+        max-width: 300px;
+        height: auto;   
+        background: rgb(200, 211, 221);
+        border: 1px solid grey;
+        padding: 10px;
+        z-index: 100;
+        position: relative;
+    }
+    
+    .Order{
+        font-size: 1em;
+    }
+
+    .Result{
+        max-width: 300px;
+        height: auto;
+        background: rgb(200, 211, 221);
+        border: 1px solid grey;
+        padding: 10px;
+        z-index: 100;
+        animation: modal 2s ease-in 1s forwards;
+        position: relative;
+        margin: 10px auto ;
+        visibility: hidden;
+        left: 0px;
+        top: -730px;
+    }
+    .Result h2, h3{
+        font-family: 'Changa', sans-serif; 
+        font-size: 1em;
+    }
+    @keyframes move {
+        0% {
+            top: 0px;
+        }
+        100% {
+            top: 450px; 
+        }
     }
 }

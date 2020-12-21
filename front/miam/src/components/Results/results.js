@@ -1,29 +1,38 @@
-import React from 'react';
+import React from "react";
+import Modal from "../UI/Modal/modal";
+import classes from "./results.module.css";
 
 const results = (props) => {
-    console.log(props.location.state)
-    // let order = Object.values(props.location.state)
-    const obj = props.location.state.order;
-    console.log(obj)
-    let order = [];
-    for(let i of obj){
-        if(i === '🍕'){
-            order.push(1);
-        }
-        if(i === "🍣"){
-            order.push(0);
-        }
-        if(i === "🥦"){
-            order.push(-1);
-        }
-    }
-    console.log(order)
+  let message = "";
+  let style = "";
+  if (props.veg > props.sushi && props.veg > props.pizza) {
+    message = "Hmm beaucoup des legumes tu peux manger des SCHOKO-BONS !!!";
+    style = classes.Green;
+  } else {
+    message =
+      "Pas assez des legumes dans tes repas. Pas des SCHOKO-BONS pour toi !!!";
+      style = classes.Red;
+  }
 
+  return (
+    <div>
+      <Modal show={props.show} modalType={"Result"}>
+        <h2>Dans {props.day} jours tu vas manger</h2>
+        <p className={classes.Order}>
+          {props.lunch} à midi et {props.dinner} le soir
+        </p>
+      </Modal>
+      <Modal show={props.show} modalType={"Result"}>
+        <h3>Voici tes repas pour prochains 52 jours et demi</h3>
+        <div className={classes.Stats}>
+          <p> Pizza: {props.pizza}</p>
+          <p> Sushi: {props.sushi}</p>
+          <p> Veg: {props.veg}</p>
+        </div>
+        <p className={[classes.Message, style].join(' ')}>{message}</p>
+      </Modal>
+    </div>
+  );
+};
 
-    
-    return ( 
-        <h1>results</h1>
-     );
-}
- 
 export default results;

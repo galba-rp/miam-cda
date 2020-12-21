@@ -8,6 +8,7 @@ let menu = (arr, day) => {
   let temp = [];
   let lunch = day * 2 - 2;
   let dinner = day * 2 - 1;
+  let pizza = sushi = veg = 0;
 
   while (array.length > 1) {
     temp = [];
@@ -27,16 +28,27 @@ let menu = (arr, day) => {
     arr = arr.concat(temp);
     array = temp;
   }
-  let result = [arr[lunch], arr[dinner]];
+
+  // calculating statistics
+  arr.forEach((m) => {
+    if (m === 1) {
+      pizza++;
+    } else if (m === 0) {
+      sushi++;
+    } else if (m === -1) {
+      veg++;
+    }
+  });
+  console.log(pizza, sushi, veg);
+  let result = [arr[lunch], arr[dinner], pizza, sushi, veg];
   return result;
 };
 
+// getting request (array of meals for the week and selected day) and sending a response (array of two meals on a specific day)
 router.post("/", (req, res) => {
   let arr = req.body.order;
   let day = req.body.day;
   let result = menu(arr, day);
-  //let day = req.body.day
-  console.log(result);
   res.send(result);
 });
 

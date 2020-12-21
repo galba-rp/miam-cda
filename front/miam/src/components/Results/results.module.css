@@ -1,0 +1,19 @@
+.Order{
+    font-family: 'Changa', sans-serif;
+}
+.Stats{
+    font: 1.5em 'Changa', sans-serif;
+    text-align: left;
+    line-height: 50%;
+    color: green;
+}
+
+.Message{
+    font: 1.5em cursive;
+}
+.Green {
+    color: green;
+}
+.Red {
+    color:red;
+}

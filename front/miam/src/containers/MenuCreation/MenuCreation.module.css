@@ -4,5 +4,32 @@
 }
 
 .Order{
-    font-size: 1.5em;
+    font-size: 1.3em;
+}
+
+.Message p:first-child {
+    margin-top: 10px;
+    font: 1.5em 'Changa', sans-serif;
+    color: green;
+}
+
+.Message p:nth-child(2){
+    background-color: white;
+    display:inline-block;
+    border-radius: 5px;
+    line-height: 2em;
+    margin-top: -15px;
+}
+
+.Form {
+    font-size: 1.4em;
+    
+}
+
+@media all and (max-width: 720px){
+    .FlexCol{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
 }

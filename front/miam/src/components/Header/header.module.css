@@ -10,4 +10,6 @@
   .Header {
       text-align: center;
       background-color: rgb(200, 211, 221);
+      display: flex;
+      justify-content: center;
   }

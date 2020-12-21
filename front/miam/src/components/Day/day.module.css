@@ -17,3 +17,17 @@
 .Flex div {
     margin: 0 20px; 
 }
+
+.Day{
+    font-weight: 400;
+    font: 2em 'Audiowide', sans-serif;  
+}
+.Meal:first-line{
+    font: 1.5em 'Changa', sans-serif;
+}
+
+@media screen and (max-width: 1024px){
+    .Item  span{
+        font-size: 1.5em;
+    }
+}

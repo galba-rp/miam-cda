@@ -1,55 +1,54 @@
 import classes from "./MenuCreation.module.css";
 import React, { Component } from "react";
-import Day from "../Day/day";
+import Day from "../../components/Day/day";
 import Button from "../../components/UI/Button/button";
 import Modal from "../../components/UI/Modal/modal";
-import day from "../Day/day";
-import { Redirect } from "react-router";
 import Layout from "../../HOC/Layout/layout";
 import axios from "../../axios-miam";
+import Results from "../../components/Results/results";
 
 class MenuCreation extends Component {
   state = {
     week: [
       {
         n: 0,
-        day: "monday",
+        day: "LUNDI",
         lunch: "",
         dinner: "",
       },
       {
         n: 1,
-        day: "tuesday",
+        day: "MARDI",
         lunch: "",
         dinner: "",
       },
       {
         n: 2,
-        day: "wednesday",
+        day: "MERCREDI",
         lunch: "",
         dinner: "",
       },
       {
         n: 3,
-        day: "thursday",
+        day: "JEUDI",
         lunch: "",
         dinner: "",
       },
       {
         n: 4,
-        day: "friday",
+        day: "VENDREDI",
         lunch: "",
         dinner: "",
       },
       {
         n: 5,
-        day: "saturday",
+        day: "SAMEDI",
         lunch: "",
         dinner: "",
       },
       {
         n: 6,
-        day: "sunday",
+        day: "DIMANCHE",
         lunch: "",
         dinner: "",
       },
@@ -64,15 +63,13 @@ class MenuCreation extends Component {
     result: {
       lunch: "",
       dinner: "",
+      pizza: 0,
+      sushi: 0,
+      veg: 0,
     },
   };
 
-  // openModalHandler = () => {
-  //   const modal = { ...this.state.modal };
-  //   modal.state = true;
-  //   this.setState({ modal: modal });
-  // };
-  // function to convert array of tigits to emojis
+  // function to convert array of digits received from api to emojis
   digitToEmoji = (arr) => {
     let r = [];
     for (let i = 0; i < arr.length; i++) {
@@ -100,11 +97,14 @@ class MenuCreation extends Component {
     this.setState({ dayNumber: dayNumber });
   };
 
+  // function receives an array of emoji selected and meal name (lunch or dinner)
+  // and updates state accordingly
   mealChoiceHandler = (meal) => {
     const timeOfTheDay = meal[1];
     const choice = meal[0];
     const week = [...this.state.week];
 
+    //updating a day depending on dayNumber.day which is updateed through nextDayHandler or prevDayHandler
     week.map((oneDay) => {
       if (oneDay.n === this.state.dayNumber.day) {
         oneDay[timeOfTheDay] = choice;
@@ -114,6 +114,8 @@ class MenuCreation extends Component {
     this.updateTotalOrder();
   };
 
+  // function to create total order once meals for a whole week
+  //have been selected
   updateTotalOrder = () => {
     let totalOrd = "";
     this.state.week.map((day) => {
@@ -122,17 +124,7 @@ class MenuCreation extends Component {
     this.setState({ totalOrder: totalOrd });
   };
 
-  // sendOrderHandler = () => {
-  //   // const state = this.state.totalOrder;
-  //   this.props.history.push({
-  //     pathname: "/results",
-  //     state: {
-  //       order: this.state.totalOrder,
-  //       day: this.state.selectedDate,
-  //     },
-  //   });
-  // };
-
+  //function to store the day to calculate meals for
   handleDayChange = (e) => {
     let num = e.target.value;
     this.setState({ selectedDay: num });
@@ -144,6 +136,8 @@ class MenuCreation extends Component {
     const orderArray = [];
     const day = this.state.selectedDay;
     let result = { ...this.state.result };
+
+    // converting emojis to digits to process correctly by API
     for (let i of order) {
       if (i === "🍕") {
         i = 1;
@@ -164,21 +158,19 @@ class MenuCreation extends Component {
       day: this.state.selectedDay,
     };
 
-    // for (let i of order) {
-    //   orderArray.push(i);
-    // }
-
+    // call to api. Default url set in axios-miam.js
     axios
       .post("/calc", food)
       .then((res) => {
         result.lunch = this.digitToEmoji(res.data)[0];
         result.dinner = this.digitToEmoji(res.data)[1];
+        result.pizza = res.data[2];
+        result.sushi = res.data[3];
+        result.veg = res.data[4];
         this.setState({ result: result });
       })
       .catch((error) => console.log(error));
 
-    //this.menu(orderArray, day);
-    console.log(this.state.result);
     this.setState({ dayTocalculate: day });
     this.setState({ resultModal: true });
   };
@@ -213,45 +205,48 @@ class MenuCreation extends Component {
     });
 
     // checking if the whole week has been ordered to display Calculate modal
-    if (this.state.totalOrder.length > 14) {
+    if (this.state.totalOrder.length === 28) {
       calculateModal = true;
     }
 
     return (
-      <Layout>
-        <Modal show={true} className={classes.Flex} modalType={"Main"}>
+      <div className={classes.FlexCol}>
+        <Modal
+          show={true}
+          className={classes.Flex}
+          modalType={!this.state.resultModal ? "Main" : "MainAnimated"}
+        >
           <Day day={dayName} clicked={(meal) => this.mealChoiceHandler(meal)} />
           <div className={classes.Flex}>
             <Button
-              btnType={"Neutral"}
+              btnType={"MediumButton"}
               clicked={this.prevDayHandler}
               disabled={togglePrev}
             >
               Précédent
             </Button>
             <Button
-              btnType={"Neutral"}
+              btnType={"MediumButton"}
               clicked={this.nextDayHandler}
               disabled={toggleNext}
             >
               Prochain
             </Button>
           </div>
-          <div>
-            <Button btnType={"Danger"}> Annuler</Button>
-          </div>
-          <div>
-            Your order so far:
+          <div className={classes.Message}>
+            <p>Voici ta commande:</p>
             <p className={classes.Order}>{this.state.totalOrder}</p>
           </div>
         </Modal>
         <Modal
           show={calculateModal}
           className={classes.Flex}
-          modalType={"Calculate"}
+          modalType={
+            !this.state.resultModal ? "Calculate" : "CalculateAnimated"
+          }
         >
-          <form>
-            <label htmlFor="dayNum"> Choose a day</label>
+          <form className={classes.Form}>
+            <label htmlFor="dayNum"> Choisis un jour: </label>
             <input
               type="number"
               id="dayNum"
@@ -261,8 +256,9 @@ class MenuCreation extends Component {
               onChange={(e) => this.handleDayChange(e)}
             ></input>
           </form>
+          <br />
           <Button
-            btnType={"Danger"}
+            btnType={"MediumButton"}
             clicked={this.calculateHandler}
             disabled={
               this.state.selectedDay > 0 && this.state.selectedDay < 54
@@ -273,18 +269,16 @@ class MenuCreation extends Component {
             Calculate
           </Button>
         </Modal>
-        <Modal
+        <Results
           show={this.state.resultModal}
-          className={classes.Flex}
-          modalType={"Result"}
-        >
-          <h2>Dans {this.state.dayTocalculate} jours tu vas manger</h2>
-          <p>
-            {this.state.result.lunch} à midi et{this.state.result.dinner} le
-            soir
-          </p>
-        </Modal>
-      </Layout>
+          day={this.state.dayTocalculate}
+          lunch={this.state.result.lunch}
+          dinner={this.state.result.dinner}
+          pizza={this.state.result.pizza}
+          sushi={this.state.result.sushi}
+          veg={this.state.result.veg}
+        />
+      </div>
     );
   }
 }

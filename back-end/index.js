@@ -12,12 +12,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use('/calc', calcRoute);
 
-// app.post('/calc', (req, res)=>{
-
-//     console.log(req.body)
-//      res.send(req.body);
-//  });
-
-
+//if environment variable PORT is not set then will use 3000
 const port = process.env.PORT || 3000;
 app.listen(port, ()=> console.log(`listening on port ${port}...`));

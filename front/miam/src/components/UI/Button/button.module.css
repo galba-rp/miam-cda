@@ -1,31 +1,14 @@
-.Button {
-    background-color: green;
-    border: none;
-    color: white;
-    outline: none;
-    cursor: pointer;
-    font: inherit;
-    padding: 10px;
-    margin: 10px;
-    font-weight: bold;
-}
-
-.Button:disabled {
-    color: rgb(139, 9, 9);
+.MediumButton:disabled {
+    background-color: rgb(113, 117, 121);
     cursor: not-allowed;
 }
 
-.Success {
-    color: #eaece7;
-}
-
 .Danger {
+    font-size: 1.2em;
+    padding: 5px;
+    border-radius: 5px;
+    font-family: 'Changa', cursive;
     background-color: red; 
-}
-
-.Neutral {
-    background-color: #ccc;
-    color: black;
 }
 
 .LargeButton{
@@ -36,7 +19,16 @@
     font-family: 'Changa', cursive;
 }
 
-.LargeButton:hover{
-    
+.LargeButton:hover{ 
     background-color:rgb(8, 184, 116);
 }
+
+.MediumButton{
+    background-color: rgb(8, 184, 116);
+    font-size: 1.2em;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: 'Changa', cursive;
+    color: white;
+}
+
