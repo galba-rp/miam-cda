@@ -66,56 +66,27 @@ class MenuCreation extends Component {
       dinner: "",
     },
   };
-  // function to calculate food on a given day up to lunch of the 52 day
-  // from array of 14 meals for the first week
-  menu = (arr, day) => {
-    let array = arr,
-      temp = [];
-    let lunch = day * 2 - 2;
-    let dinner = day * 2 - 1;
-
-    while (array.length > 1) {
-      temp = [];
-      let i = 1;
-      while (i < array.length) {
-        if (array[i] === array[i - 1]) {
-          temp.push(array[i]);
-        } else if (
-          (array[i] == "🍕" && array[i - 1] === "🍣") ||
-          (array[i] == "🍣" && array[i - 1] === "🍕")
-        ) {
-          temp.push("🥦");
-        } else if (
-          (array[i] == "🍕" && array[i - 1] === "🥦") ||
-          (array[i] == "🥦" && array[i - 1] === "🍕")
-        ) {
-          temp.push("🍣");
-        } else if (
-          (array[i] == "🍣" && array[i - 1] === "🥦") ||
-          (array[i] == "🥦" && array[i - 1] === "🍣")
-        ) {
-          temp.push("🍕");
-        }
-        i++;
-      }
-      arr = arr.concat(temp);
-      array = temp;
-    }
-    let result = {
-      lunch: arr[lunch],
-      dinner: arr[dinner],
-    };
-
-    let res = { ...this.state.result };
-    res = result;
-    this.setState({ result: res });
-  };
 
   // openModalHandler = () => {
   //   const modal = { ...this.state.modal };
   //   modal.state = true;
   //   this.setState({ modal: modal });
   // };
+  // function to convert array of tigits to emojis
+  digitToEmoji = (arr) => {
+    let r = [];
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] === 1) {
+        r.push("🍕");
+      } else if (arr[i] === 0) {
+        r.push("🍣");
+      } else if (arr[i] === -1) {
+        r.push("🥦");
+      }
+    }
+
+    return r;
+  };
 
   nextDayHandler = () => {
     const dayNumber = { ...this.state.dayNumber };
@@ -172,6 +143,7 @@ class MenuCreation extends Component {
     const order = this.state.totalOrder;
     const orderArray = [];
     const day = this.state.selectedDay;
+    let result = { ...this.state.result };
     for (let i of order) {
       if (i === "🍕") {
         i = 1;
@@ -198,10 +170,15 @@ class MenuCreation extends Component {
 
     axios
       .post("/calc", food)
-      .then((res) => console.log(res))
+      .then((res) => {
+        result.lunch = this.digitToEmoji(res.data)[0];
+        result.dinner = this.digitToEmoji(res.data)[1];
+        this.setState({ result: result });
+      })
       .catch((error) => console.log(error));
 
     //this.menu(orderArray, day);
+    console.log(this.state.result);
     this.setState({ dayTocalculate: day });
     this.setState({ resultModal: true });
   };
