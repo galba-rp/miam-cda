@@ -2,6 +2,10 @@
   "name": "miam",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "npm": "6.13.4",
+    "node": "12.4.0"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
