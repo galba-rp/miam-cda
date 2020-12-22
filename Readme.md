@@ -1,7 +1,7 @@
 MIAM
 
 Miam is a test project.
-Description of the task here: https://github.com/greta-vannes/test-cda-2
+Description of the task is here: https://github.com/greta-vannes/test-cda-2
 
 ## Front-end built with
 
@@ -31,4 +31,4 @@ Distributed under the MIT License. See LICENSE for more information.
 ## Contact
 
 - Yaroslav <galba.rp@gmail.com>
-- Project link
+- Project link https://cda-miam.herokuapp.com/
