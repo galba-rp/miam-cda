@@ -19,6 +19,7 @@ Description of the task is here: https://github.com/greta-vannes/test-cda-2
 - add Authorisation
 - add DB
 - add spinner
+- add media queries for lower resolution screens
 
 ## Issues
 
