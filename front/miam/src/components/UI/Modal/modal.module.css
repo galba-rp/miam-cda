@@ -1,0 +1,32 @@
+.Show{
+    max-width: 400px;
+    height: auto;
+    position: absolute;
+    background: #bebebe;
+    border: 1px solid grey;
+    left: 25%;
+    top: 30%;
+    padding: 20px;
+    z-index: 100;
+}
+
+.Hide{
+    display: none;
+}
+
+.Select {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+.Small{
+    width: 150px;
+    height: auto;
+    position: absolute;
+    background: #bebebe;
+    border: 1px solid grey;
+    left: 25%;
+    top: 30%;
+    padding: 20px;
+    z-index: 100;
+}
