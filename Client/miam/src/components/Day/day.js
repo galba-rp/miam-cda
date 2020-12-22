@@ -7,7 +7,7 @@ const day = (props) => {
       <h2 className={classes.Day}>{props.day}</h2>
       <div className={classes.Flex} >
         <div className={classes.Meal}>
-          MIDI:
+          MIDI :
           <p>
             <span onClick={() => props.clicked(["🍕", "lunch"])}>
               🍕
@@ -21,7 +21,7 @@ const day = (props) => {
           </p>
         </div>
         <div className={classes.Meal}>
-          SOIR:
+          SOIR :
           <p>
             <span onClick={() => props.clicked(["🍕", "dinner"])}>
               🍕

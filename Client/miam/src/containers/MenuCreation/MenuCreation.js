@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import Day from "../../components/Day/day";
 import Button from "../../components/UI/Button/button";
 import Modal from "../../components/UI/Modal/modal";
-import Layout from "../../HOC/Layout/layout";
 import axios from "../../axios-miam";
 import Results from "../../components/Results/results";
 
@@ -20,7 +19,7 @@ class MenuCreation extends Component {
         n: 1,
         day: "MARDI",
         lunch: "",
-        dinner: "",
+        dinner: "",   
       },
       {
         n: 2,
@@ -68,6 +67,20 @@ class MenuCreation extends Component {
       veg: 0,
     },
   };
+
+  // back-end connection error handling
+  componentDidMount() {
+    axios.interceptors.request.use((req) => {
+      return req;
+    });
+    axios.interceptors.response.use(
+      (res) => res,
+      (error) => {
+        console.log(error);
+        this.props.history.push("/error");
+      }
+    );
+  }
 
   // function to convert array of digits received from api to emojis
   digitToEmoji = (arr) => {
@@ -160,7 +173,7 @@ class MenuCreation extends Component {
 
     // call to api. Default url set in axios-miam.js
     axios
-      .post("/calc", food)
+      .post("/cal", food)
       .then((res) => {
         result.lunch = this.digitToEmoji(res.data)[0];
         result.dinner = this.digitToEmoji(res.data)[1];
@@ -230,11 +243,11 @@ class MenuCreation extends Component {
               clicked={this.nextDayHandler}
               disabled={toggleNext}
             >
-              Prochain
+              Suivant
             </Button>
           </div>
           <div className={classes.Message}>
-            <p>Voici ta commande:</p>
+            <p>Voici ta commande :</p>
             <p className={classes.Order}>{this.state.totalOrder}</p>
           </div>
         </Modal>
@@ -246,7 +259,7 @@ class MenuCreation extends Component {
           }
         >
           <form className={classes.Form}>
-            <label htmlFor="dayNum"> Choisis un jour: </label>
+            <label htmlFor="dayNum"> Choisis un jour : </label>
             <input
               type="number"
               id="dayNum"
@@ -266,7 +279,7 @@ class MenuCreation extends Component {
                 : true
             }
           >
-            Calculate
+            Abracadabra
           </Button>
         </Modal>
         <Results

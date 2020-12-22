@@ -53,6 +53,19 @@
     display: none;
 }
 
+.Error{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: auto;
+}
+
+.Error p{
+  font: 3em 'Changa', arial;
+}
 @keyframes modal {
     0% {
         opacity: 0;

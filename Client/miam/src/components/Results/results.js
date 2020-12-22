@@ -6,11 +6,11 @@ const results = (props) => {
   let message = "";
   let style = "";
   if (props.veg > props.sushi && props.veg > props.pizza) {
-    message = "Hmm beaucoup des legumes tu peux manger des SCHOKO-BONS !!!";
+    message = "Hmm beaucoup de légumes, tu peux manger des SCHOKO-BONS !!!";
     style = classes.Green;
   } else {
     message =
-      "Pas assez des legumes dans tes repas. Pas des SCHOKO-BONS pour toi !!!";
+      "Pas assez de légumes dans tes repas. Pas de SCHOKO-BONS pour toi !!!";
       style = classes.Red;
   }
 
@@ -23,11 +23,11 @@ const results = (props) => {
         </p>
       </Modal>
       <Modal show={props.show} modalType={"Result"}>
-        <h3>Voici tes repas pour prochains 52 jours et demi</h3>
+        <h3>Voici tes repas pour les prochains 52 jours et demi</h3>
         <div className={classes.Stats}>
-          <p> Pizza: {props.pizza}</p>
-          <p> Sushi: {props.sushi}</p>
-          <p> Veg: {props.veg}</p>
+          <p> Pizza : {props.pizza}</p>
+          <p> Sushi : {props.sushi}</p>
+          <p> Veg : {props.veg}</p>
         </div>
         <p className={[classes.Message, style].join(' ')}>{message}</p>
       </Modal>

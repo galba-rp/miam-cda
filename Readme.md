@@ -5,7 +5,7 @@ Description of the task here: https://github.com/greta-vannes/test-cda-2
 
 ## Front-end built with
 
-- PHPRaect
+- Raect
 - Javascript
 - CSS
 
@@ -17,7 +17,9 @@ Description of the task here: https://github.com/greta-vannes/test-cda-2
 
 - add Redux
 - add Authorisation
-  -add DB
+- add DB
+- 404 page
+- add spinner
 
 ## Issues
 

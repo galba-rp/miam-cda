@@ -17,6 +17,7 @@
     padding: 20px;
     border-radius: 5px;
     font-family: 'Changa', cursive;
+    cursor: pointer;
 }
 
 .LargeButton:hover{ 
@@ -30,5 +31,6 @@
     border-radius: 5px;
     font-family: 'Changa', cursive;
     color: white;
+    cursor: pointer;
 }
 
