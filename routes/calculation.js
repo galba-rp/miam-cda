@@ -44,7 +44,7 @@ let menu = (arr, day) => {
 };
 
 // getting request (array of meals for the week and selected day) and sending a response (array of two meals on a specific day)
-router.post("/calc", (req, res) => {
+router.post("/", (req, res) => {
   let arr = req.body.order;
   let day = req.body.day;
   let result = menu(arr, day);
