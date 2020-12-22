@@ -39,13 +39,12 @@ let menu = (arr, day) => {
       veg++;
     }
   });
-  console.log(pizza, sushi, veg);
   let result = [arr[lunch], arr[dinner], pizza, sushi, veg];
   return result;
 };
 
 // getting request (array of meals for the week and selected day) and sending a response (array of two meals on a specific day)
-router.post("/", (req, res) => {
+router.post("/calc", (req, res) => {
   let arr = req.body.order;
   let day = req.body.day;
   let result = menu(arr, day);
