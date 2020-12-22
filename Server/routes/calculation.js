@@ -39,7 +39,6 @@ let menu = (arr, day) => {
       veg++;
     }
   });
-  console.log(pizza, sushi, veg);
   let result = [arr[lunch], arr[dinner], pizza, sushi, veg];
   return result;
 };

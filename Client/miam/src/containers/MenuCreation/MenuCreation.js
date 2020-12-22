@@ -94,10 +94,10 @@ class MenuCreation extends Component {
         r.push("🥦");
       }
     }
-
     return r;
   };
 
+  
   nextDayHandler = () => {
     const dayNumber = { ...this.state.dayNumber };
     dayNumber.day++;
@@ -171,9 +171,9 @@ class MenuCreation extends Component {
       day: this.state.selectedDay,
     };
 
-    // call to api. Default url set in axios-miam.js
+    // call to api. Default url set in axios-miam.js ()
     axios
-      .post("/cal", food)
+      .post("/calc", food)
       .then((res) => {
         result.lunch = this.digitToEmoji(res.data)[0];
         result.dinner = this.digitToEmoji(res.data)[1];

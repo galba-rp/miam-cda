@@ -4,10 +4,7 @@ import Layout from "../../HOC/Layout/layout";
 import Button from "../../components/UI/Button/button";
 
 class WelcomePage extends Component {
-  state = {
-    name: "",
-  };
-
+ 
   handleMiam = () => {
     this.props.history.push("/menu");
   };

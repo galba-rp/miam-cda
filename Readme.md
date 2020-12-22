@@ -18,7 +18,6 @@ Description of the task here: https://github.com/greta-vannes/test-cda-2
 - add Redux
 - add Authorisation
 - add DB
-- 404 page
 - add spinner
 
 ## Issues

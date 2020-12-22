@@ -1,11 +1,16 @@
 import React from 'react';
 import classes from './modal.module.css';
+import Button from '../Button/button';
 
 const modal = (props) => {
+    //console.log(props.show)
     return (
-        <div className={[classes.Modal, props.show ? classes[props.modalType] : classes.Hide].join(' ')}>
+        <div className={props.show ? classes.Show : classes.Hide}>
+         
               {props.children}
+            
           </div>
+       
       );
 }
  

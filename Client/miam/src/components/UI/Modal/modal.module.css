@@ -166,6 +166,13 @@
         font-family: 'Changa', sans-serif; 
         font-size: 1em;
     }
+    .Error{
+        top: 65%;
+        position: absolute;
+    }
+    .Error p, h1{
+        font: 1em 'Changa', arial;
+      }
     @keyframes move {
         0% {
             top: 0px;
