@@ -1,4 +1,4 @@
-##MIAM
+## MIAM
 
 Miam is a test project.
 Description of the task is here: https://github.com/greta-vannes/test-cda-2
