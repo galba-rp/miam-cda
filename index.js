@@ -19,6 +19,6 @@ app.get('/*', (req, res) => {
 });
 
 
-//if environment variable PORT is not set then will use 3000
+//if environment variable PORT is not set then will use 5000
 const port = process.env.PORT || 5000;
-app.listen(port, ()=> console.log(`listening on port ${port}...`));
+app.listen(port);
