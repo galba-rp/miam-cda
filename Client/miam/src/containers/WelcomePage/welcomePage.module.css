@@ -16,8 +16,6 @@
     font-weight: 900;
     font: 3em 'Audiowide', sans-serif;  
     margin: 10px;
-   
-
 }
 
 @keyframes first {
@@ -40,5 +38,18 @@
     }
     100% {
         opacity: 1;
+    }
+}
+
+@media all and (max-height: 760px){
+    .First {
+        animation: first 2s ease-in;
+        font-size: 3em;
+        padding-top: 10vh;
+    }
+
+    .Second {
+        animation: second 1.5s ease-in;   
+        font: 2em 'Audiowide', sans-serif;  
     }
 }

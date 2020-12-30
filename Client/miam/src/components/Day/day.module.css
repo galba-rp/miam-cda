@@ -31,3 +31,12 @@
         font-size: 1.5em;
     }
 }
+@media all and (max-height: 760px), all and (max-width: 720px){
+    .Day{
+        font-size: 1.3em;
+    }
+    .Item  span{
+        font-size: 1.3em;
+    }
+}
+

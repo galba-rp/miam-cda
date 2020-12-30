@@ -17,3 +17,9 @@
 .Red {
     color:red;
 }
+
+@media all and (max-height: 760px), all and (max-width: 720px){
+    .Stats, .Message{
+        font-size: 1.2em;
+    }
+}

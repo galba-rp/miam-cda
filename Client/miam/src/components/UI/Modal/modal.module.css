@@ -3,7 +3,7 @@
     height: auto;
     background: rgb(200, 211, 221);
     border: 1px solid grey;
-    padding: 20px;
+    padding: 50px;
     z-index: 100;
     position: relative;
 }
@@ -90,7 +90,7 @@
     }
 }
 
- @media all and (max-width: 1024px){
+ @media all and (max-width: 1024px), all and (max-height: 760px){
     .Modal{
         max-width: 300px;
         height: auto;   
@@ -119,8 +119,14 @@
         top: -638px;
         right: -180px;
     }
+    .Main{    
+        margin: 10vh auto 0;
+    }
+    
+    .MainAnimated{
+        margin: 10vh auto 0;
+    }
     .Result h2, h3{
-        font-family: 'Changa', sans-serif; 
         font-size: 1em;
     }
     @keyframes move {
@@ -133,7 +139,16 @@
     }
 }
 
-@media all and (max-width: 720px){
+@media all and (max-height: 760px){
+    .Result{
+        max-width: 300px;
+        left: 250px;
+        top: -565px;
+    }
+}
+
+
+@media all and (max-width: 720px) {
     .Modal{
         max-width: 300px;
         height: auto;   
@@ -142,6 +157,7 @@
         padding: 10px;
         z-index: 100;
         position: relative;
+        margin: 10px;
     }
     
     .Order{
@@ -150,17 +166,8 @@
 
     .Result{
         max-width: 300px;
-        height: auto;
-        background: rgb(200, 211, 221);
-        border: 1px solid grey;
-        padding: 10px;
-        z-index: 100;
-        animation: modal 2s ease-in 1s forwards;
-        position: relative;
-        margin: 10px auto ;
-        visibility: hidden;
         left: 0px;
-        top: -730px;
+        top: -550px;
     }
     .Result h2, h3{
         font-family: 'Changa', sans-serif; 
@@ -178,7 +185,8 @@
             top: 0px;
         }
         100% {
-            top: 450px; 
+            top: 550px; 
         }
     }
 }
+
