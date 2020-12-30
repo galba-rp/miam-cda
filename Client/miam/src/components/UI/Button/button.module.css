@@ -33,4 +33,12 @@
     color: white;
     cursor: pointer;
 }
+@media all and (max-height: 760px){
+    .MediumButton{
+        font-size: 1em;
+        padding: 6px;
+        border-radius: 5px;
+    }
+}
+
 

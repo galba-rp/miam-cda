@@ -182,3 +182,22 @@
         }
     }
 }
+
+@media all and (max-height: 760px){
+    .Modal{
+        max-width: 450px;
+        height: auto;
+        padding: 10px;
+        z-index: 100;
+    }
+    .Main{    
+        margin: 10vh auto 0;
+    }
+    
+    .MainAnimated{
+        margin: 10vh auto 0;
+    }
+    .Result h2, h3{
+        font-size: 1em;
+    }
+}
