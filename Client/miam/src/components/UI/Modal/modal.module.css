@@ -40,7 +40,7 @@
     animation: modal 2s ease-in 1s forwards;
     position: relative;
     margin: 20px auto 0;
-    top: -620px;
+    top: -790px;
     right: -280px;
     visibility: hidden;
 }
@@ -157,7 +157,6 @@
         padding: 10px;
         z-index: 100;
         position: relative;
-        margin: 10px;
     }
     
     .Order{

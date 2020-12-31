@@ -5,6 +5,8 @@ import Button from "../../components/UI/Button/button";
 import Modal from "../../components/UI/Modal/modal";
 import axios from "../../axios-miam";
 import Results from "../../components/Results/results";
+import { connect } from "react-redux";
+import * as menuCreateActions from "../../store/actions/indexAct";
 
 class MenuCreation extends Component {
   state = {
@@ -19,7 +21,7 @@ class MenuCreation extends Component {
         n: 1,
         day: "MARDI",
         lunch: "",
-        dinner: "",   
+        dinner: "",
       },
       {
         n: 2,
@@ -52,9 +54,7 @@ class MenuCreation extends Component {
         dinner: "",
       },
     ],
-    dayNumber: {
-      day: 0,
-    },
+
     resultModal: false,
     totalOrder: "",
     selectedDay: 0,
@@ -97,19 +97,6 @@ class MenuCreation extends Component {
     return r;
   };
 
-  
-  nextDayHandler = () => {
-    const dayNumber = { ...this.state.dayNumber };
-    dayNumber.day++;
-    this.setState({ dayNumber: dayNumber });
-  };
-
-  prevDayHandler = () => {
-    const dayNumber = { ...this.state.dayNumber };
-    dayNumber.day--;
-    this.setState({ dayNumber: dayNumber });
-  };
-
   // function receives an array of emoji selected and meal name (lunch or dinner)
   // and updates state accordingly
   mealChoiceHandler = (meal) => {
@@ -117,9 +104,9 @@ class MenuCreation extends Component {
     const choice = meal[0];
     const week = [...this.state.week];
 
-    //updating a day depending on dayNumber.day which is updateed through nextDayHandler or prevDayHandler
+    //updating a day depending on dayNumber.day which is updateed through onNextDay or onPrevDay
     week.map((oneDay) => {
-      if (oneDay.n === this.state.dayNumber.day) {
+      if (oneDay.n === this.props.dayNum) {
         oneDay[timeOfTheDay] = choice;
       }
     });
@@ -196,23 +183,19 @@ class MenuCreation extends Component {
 
     // disabling next button  if one of the day's meals hasen't been ordered or if it is sunday
     this.state.week.map((day) => {
-      if (day.n === this.state.dayNumber.day) {
-        if (
-          day.lunch === "" ||
-          day.dinner === "" ||
-          this.state.dayNumber.day >= 6
-        ) {
+      if (day.n === this.props.dayNum) {
+        if (day.lunch === "" || day.dinner === "" || this.props.dayNum >= 6) {
           return (toggleNext = true);
         }
       }
     });
 
     let dayName = this.state.week.map((day) => {
-      if (day.n === this.state.dayNumber.day) {
+      if (day.n === this.props.dayNum) {
         return day.day;
       }
       // enable next  button to change the day if both meals of the day are ordered
-      if (this.state.dayNumber.day === 0) {
+      if (this.props.dayNum === 0) {
         return (togglePrev = true);
       }
     });
@@ -233,14 +216,14 @@ class MenuCreation extends Component {
           <div className={classes.Flex}>
             <Button
               btnType={"MediumButton"}
-              clicked={this.prevDayHandler}
+              clicked={this.props.onPrevDay}
               disabled={togglePrev}
             >
               Précédent
             </Button>
             <Button
               btnType={"MediumButton"}
-              clicked={this.nextDayHandler}
+              clicked={this.props.onNextDay}
               disabled={toggleNext}
             >
               Suivant
@@ -296,4 +279,17 @@ class MenuCreation extends Component {
   }
 }
 
-export default MenuCreation;
+const mapStateToProps = (state) => {
+  return {
+    dayNum: state.dayNumber.day,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onNextDay: () => dispatch(menuCreateActions.nextDay()),
+    onPrevDay: () => dispatch(menuCreateActions.previousDay()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuCreation);
