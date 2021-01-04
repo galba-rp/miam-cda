@@ -1,1 +1,1 @@
-export { nextDay, previousDay, mealChoice } from "./menuCreationAct";
+export { nextDay, previousDay, mealChoice, dayChoice } from "./menuCreationAct";

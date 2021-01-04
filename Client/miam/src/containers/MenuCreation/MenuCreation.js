@@ -10,54 +10,8 @@ import * as menuCreateActions from "../../store/actions/indexAct";
 
 class MenuCreation extends Component {
   state = {
-    week: [
-      {
-        n: 0,
-        day: "LUNDI",
-        lunch: "",
-        dinner: "",
-      },
-      {
-        n: 1,
-        day: "MARDI",
-        lunch: "",
-        dinner: "",
-      },
-      {
-        n: 2,
-        day: "MERCREDI",
-        lunch: "",
-        dinner: "",
-      },
-      {
-        n: 3,
-        day: "JEUDI",
-        lunch: "",
-        dinner: "",
-      },
-      {
-        n: 4,
-        day: "VENDREDI",
-        lunch: "",
-        dinner: "",
-      },
-      {
-        n: 5,
-        day: "SAMEDI",
-        lunch: "",
-        dinner: "",
-      },
-      {
-        n: 6,
-        day: "DIMANCHE",
-        lunch: "",
-        dinner: "",
-      },
-    ],
-
     resultModal: false,
-    totalOrder: "",
-    selectedDay: 0,
+
     dayTocalculate: 0,
     result: {
       lunch: "",
@@ -97,44 +51,11 @@ class MenuCreation extends Component {
     return r;
   };
 
-  // function receives an array of emoji selected and meal name (lunch or dinner)
-  // and updates state accordingly
-  mealChoiceHandler = (meal) => {
-    const timeOfTheDay = meal[1];
-    const choice = meal[0];
-    const week = [...this.state.week];
-
-    //updating a day depending on dayNumber.day which is updateed through onNextDay or onPrevDay
-    week.map((oneDay) => {
-      if (oneDay.n === this.props.dayNum) {
-        oneDay[timeOfTheDay] = choice;
-      }
-    });
-    this.setState({ week: week });
-    this.updateTotalOrder();
-  };
-
-  // function to create total order once meals for a whole week
-  //have been selected
-  updateTotalOrder = () => {
-    let totalOrd = "";
-    this.state.week.map((day) => {
-      totalOrd = totalOrd.concat(day.lunch, day.dinner);
-    });
-    this.setState({ totalOrder: totalOrd });
-  };
-
-  //function to store the day to calculate meals for
-  handleDayChange = (e) => {
-    let num = e.target.value;
-    this.setState({ selectedDay: num });
-  };
-
   // creating array from order and running menu function with chosen day
   calculateHandler = () => {
-    const order = this.state.totalOrder;
+    const order = this.props.totalOrder;
     const orderArray = [];
-    const day = this.state.selectedDay;
+    const day = this.props.selectedDay;
     let result = { ...this.state.result };
 
     // converting emojis to digits to process correctly by API
@@ -155,7 +76,7 @@ class MenuCreation extends Component {
 
     const food = {
       order: orderArray,
-      day: this.state.selectedDay,
+      day: this.props.selectedDay,
     };
 
     // call to api. Default url set in axios-miam.js ()
@@ -180,9 +101,10 @@ class MenuCreation extends Component {
     let togglePrev = false;
     let toggleNext = false;
     let calculateModal = false;
+    //console.log(this.props.week)
 
     // disabling next button  if one of the day's meals hasen't been ordered or if it is sunday
-    this.state.week.map((day) => {
+    this.props.week.map((day) => {
       if (day.n === this.props.dayNum) {
         if (day.lunch === "" || day.dinner === "" || this.props.dayNum >= 6) {
           return (toggleNext = true);
@@ -190,7 +112,7 @@ class MenuCreation extends Component {
       }
     });
 
-    let dayName = this.state.week.map((day) => {
+    let dayName = this.props.week.map((day) => {
       if (day.n === this.props.dayNum) {
         return day.day;
       }
@@ -201,7 +123,7 @@ class MenuCreation extends Component {
     });
 
     // checking if the whole week has been ordered to display Calculate modal
-    if (this.state.totalOrder.length === 28) {
+    if (this.props.totalOrder.length === 28) {
       calculateModal = true;
     }
 
@@ -212,7 +134,7 @@ class MenuCreation extends Component {
           className={classes.Flex}
           modalType={!this.state.resultModal ? "Main" : "MainAnimated"}
         >
-          <Day day={dayName} clicked={(meal) => this.mealChoiceHandler(meal)} />
+          <Day day={dayName} clicked={(meal) => this.props.mealChoice(meal)} />
           <div className={classes.Flex}>
             <Button
               btnType={"MediumButton"}
@@ -231,7 +153,7 @@ class MenuCreation extends Component {
           </div>
           <div className={classes.Message}>
             <p>Voici ta commande :</p>
-            <p className={classes.Order}>{this.state.totalOrder}</p>
+            <p className={classes.Order}>{this.props.totalOrder}</p>
           </div>
         </Modal>
         <Modal
@@ -249,7 +171,7 @@ class MenuCreation extends Component {
               name="dayNum"
               min="1"
               max="53"
-              onChange={(e) => this.handleDayChange(e)}
+              onChange={(e) => this.props.dayChoice(e)}
             ></input>
           </form>
           <br />
@@ -257,7 +179,7 @@ class MenuCreation extends Component {
             btnType={"MediumButton"}
             clicked={this.calculateHandler}
             disabled={
-              this.state.selectedDay > 0 && this.state.selectedDay < 54
+              this.props.selectedDay > 0 && this.props.selectedDay < 54
                 ? false
                 : true
             }
@@ -282,6 +204,9 @@ class MenuCreation extends Component {
 const mapStateToProps = (state) => {
   return {
     dayNum: state.dayNumber.day,
+    totalOrder: state.totalOrder,
+    week: state.week,
+    selectedDay: state.selectedDay,
   };
 };
 
@@ -289,6 +214,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onNextDay: () => dispatch(menuCreateActions.nextDay()),
     onPrevDay: () => dispatch(menuCreateActions.previousDay()),
+    mealChoice: (meal) => dispatch(menuCreateActions.mealChoice(meal)),
+    dayChoice: (e) => dispatch(menuCreateActions.dayChoice(e)),
   };
 };
 
