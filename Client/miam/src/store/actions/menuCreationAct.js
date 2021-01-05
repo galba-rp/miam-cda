@@ -1,5 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../axios-miam";
+import { push } from "react-router-redux";
 
 export const nextDay = () => {
   return {
@@ -27,26 +28,48 @@ export const dayChoice = (e) => {
   };
 };
 
-export const setResult = (result) => {
+export const prepareOrder = () => {
   return {
-    type: actionTypes.SET_RESULT,
-    result: result,
+    type: actionTypes.PREPARE_ORDER,
   };
 };
 
-export const getResult = (order, day) => {
-  // return (dispatch) => {
-  //   axios.interceptors.request.use((req) => {
-  //     return req;
-  //   });
-  //   axios.interceptors.response.use(
-  //     (res) => {
-  //       dispatch(setResult(res.data));
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //       this.props.history.push("/error");
-  //     }
-  //   );
-  // };
+export const setResult = (result) => {
+  return {
+    type: actionTypes.SET_RESULT,
+    resultFromApi: result,
+    showModal: true,
+  };
+};
+
+// converting digits received from api to emojis
+export const digitToEmoji = (digit) => {
+  if (digit === 1) {
+    digit = "🍕";
+  } else if (digit === 0) {
+    digit = "🍣";
+  } else if (digit === -1) {
+    digit = "🥦";
+  }
+  return digit;
+};
+
+// sending request to the API and on success creating result object and dispatchin set result function
+export const getResult = (food) => {
+  return (dispatch) => {
+    // call to api. Default url set in axios-miam.js
+    axios
+      .post("/calc", food)
+      .then((res) => {
+        const result = {};
+        result.lunch = digitToEmoji(res.data[0]);
+        result.dinner = digitToEmoji(res.data[1]);
+        result.pizza = res.data[2];
+        result.sushi = res.data[3];
+        result.veg = res.data[4];
+        dispatch(setResult(result));
+        console.log(result.lunch);
+      })
+      .catch((error) => dispatch(push("/error")));
+  };
 };

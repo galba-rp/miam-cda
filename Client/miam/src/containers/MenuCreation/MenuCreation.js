@@ -9,18 +9,7 @@ import { connect } from "react-redux";
 import * as menuCreateActions from "../../store/actions/indexAct";
 
 class MenuCreation extends Component {
-  state = {
-    resultModal: false,
-
-    dayTocalculate: 0,
-    result: {
-      lunch: "",
-      dinner: "",
-      pizza: 0,
-      sushi: 0,
-      veg: 0,
-    },
-  };
+  state = {};
 
   // back-end connection error handling
   componentDidMount() {
@@ -36,64 +25,10 @@ class MenuCreation extends Component {
     );
   }
 
-  // function to convert array of digits received from api to emojis
-  digitToEmoji = (arr) => {
-    let r = [];
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i] === 1) {
-        r.push("🍕");
-      } else if (arr[i] === 0) {
-        r.push("🍣");
-      } else if (arr[i] === -1) {
-        r.push("🥦");
-      }
-    }
-    return r;
-  };
-
   // creating array from order and running menu function with chosen day
   calculateHandler = () => {
-    const order = this.props.totalOrder;
-    const orderArray = [];
-    const day = this.props.selectedDay;
-    let result = { ...this.state.result };
-
-    // converting emojis to digits to process correctly by API
-    for (let i of order) {
-      if (i === "🍕") {
-        i = 1;
-        orderArray.push(i);
-      }
-      if (i === "🍣") {
-        i = 0;
-        orderArray.push(i);
-      }
-      if (i === "🥦") {
-        i = -1;
-        orderArray.push(i);
-      }
-    }
-
-    const food = {
-      order: orderArray,
-      day: this.props.selectedDay,
-    };
-
-    // call to api. Default url set in axios-miam.js ()
-    axios
-      .post("/calc", food)
-      .then((res) => {
-        result.lunch = this.digitToEmoji(res.data)[0];
-        result.dinner = this.digitToEmoji(res.data)[1];
-        result.pizza = res.data[2];
-        result.sushi = res.data[3];
-        result.veg = res.data[4];
-        this.setState({ result: result });
-      })
-      .catch((error) => console.log(error));
-
-    this.setState({ dayTocalculate: day });
-    this.setState({ resultModal: true });
+    this.props.prepareOrder();
+    setTimeout(() => this.props.getResult(this.props.food), 1000);
   };
 
   render() {
@@ -132,7 +67,7 @@ class MenuCreation extends Component {
         <Modal
           show={true}
           className={classes.Flex}
-          modalType={!this.state.resultModal ? "Main" : "MainAnimated"}
+          modalType={!this.props.resultModal ? "Main" : "MainAnimated"}
         >
           <Day day={dayName} clicked={(meal) => this.props.mealChoice(meal)} />
           <div className={classes.Flex}>
@@ -160,7 +95,7 @@ class MenuCreation extends Component {
           show={calculateModal}
           className={classes.Flex}
           modalType={
-            !this.state.resultModal ? "Calculate" : "CalculateAnimated"
+            !this.props.resultModal ? "Calculate" : "CalculateAnimated"
           }
         >
           <form className={classes.Form}>
@@ -188,13 +123,13 @@ class MenuCreation extends Component {
           </Button>
         </Modal>
         <Results
-          show={this.state.resultModal}
-          day={this.state.dayTocalculate}
-          lunch={this.state.result.lunch}
-          dinner={this.state.result.dinner}
-          pizza={this.state.result.pizza}
-          sushi={this.state.result.sushi}
-          veg={this.state.result.veg}
+          show={this.props.resultModal}
+          day={this.props.selectedDay}
+          lunch={this.props.result.lunch}
+          dinner={this.props.result.dinner}
+          pizza={this.props.result.pizza}
+          sushi={this.props.result.sushi}
+          veg={this.props.result.veg}
         />
       </div>
     );
@@ -207,6 +142,9 @@ const mapStateToProps = (state) => {
     totalOrder: state.totalOrder,
     week: state.week,
     selectedDay: state.selectedDay,
+    food: state.orderToApi,
+    result: state.result,
+    resultModal: state.resultModal,
   };
 };
 
@@ -216,6 +154,8 @@ const mapDispatchToProps = (dispatch) => {
     onPrevDay: () => dispatch(menuCreateActions.previousDay()),
     mealChoice: (meal) => dispatch(menuCreateActions.mealChoice(meal)),
     dayChoice: (e) => dispatch(menuCreateActions.dayChoice(e)),
+    getResult: (food) => dispatch(menuCreateActions.getResult(food)),
+    prepareOrder: () => dispatch(menuCreateActions.prepareOrder()),
   };
 };
 

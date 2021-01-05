@@ -50,6 +50,18 @@ const initialState = {
   },
   selectedDay: 0,
   totalOrder: "",
+  result: {
+    lunch: "",
+    dinner: "",
+    pizza: 0,
+    sushi: 0,
+    veg: 0,
+  },
+  orderToApi: {
+    order: [],
+    day: "",
+  },
+  resultModal: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -63,6 +75,7 @@ const reducer = (state = initialState, action) => {
           day: state.dayNumber.day + 1,
         },
       };
+
     // changing day number on previous button click
     case actionTypes.PREVIOUS_DAY:
       return {
@@ -72,6 +85,7 @@ const reducer = (state = initialState, action) => {
           day: state.dayNumber.day - 1,
         },
       };
+
     // receives an array of emoji selected and meal name (lunch or dinner)
     // and updates state accordingly and then updates total result
     case actionTypes.MEAL_CHOICE:
@@ -93,12 +107,48 @@ const reducer = (state = initialState, action) => {
         }),
         totalOrder: totalOrd,
       };
+
     // storing the day to calculate meals for
     case actionTypes.DAY_CHOICE:
       return {
         ...state,
         selectedDay: [action.event.target.value],
       };
+
+    case actionTypes.PREPARE_ORDER:
+      const orderArray = [];
+      for (let i of state.totalOrder) {
+        if (i === "🍕") {
+          i = 1;
+          orderArray.push(i);
+        }
+        if (i === "🍣") {
+          i = 0;
+          orderArray.push(i);
+        }
+        if (i === "🥦") {
+          i = -1;
+          orderArray.push(i);
+        }
+      }
+      return {
+        ...state,
+        orderToApi: {
+          ...state.orderToApi,
+          order: orderArray,
+          day: state.selectedDay,
+        },
+      };
+
+    // saving result to state
+    case actionTypes.SET_RESULT:
+      console.log([action.resultFromApi]);
+      return {
+        ...state,
+        result: action.resultFromApi,
+        resultModal: action.showModal,
+      };
+
     default:
       return state;
   }
