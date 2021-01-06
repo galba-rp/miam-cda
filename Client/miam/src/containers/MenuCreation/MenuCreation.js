@@ -11,24 +11,16 @@ import * as menuCreateActions from "../../store/actions/indexAct";
 class MenuCreation extends Component {
   state = {};
 
-  // back-end connection error handling
+  // back-end connection if orderToApi created
   componentDidMount() {
-    axios.interceptors.request.use((req) => {
-      return req;
-    });
-    axios.interceptors.response.use(
-      (res) => res,
-      (error) => {
-        console.log(error);
-        this.props.history.push("/error");
-      }
-    );
+  if (this.props.orderToApi.order) {
+    this.props.getResult(this.props.food)
+  }
   }
 
   // creating array from order and running menu function with chosen day
   calculateHandler = () => {
     this.props.prepareOrder();
-    setTimeout(() => this.props.getResult(this.props.food), 1000);
   };
 
   render() {
@@ -145,6 +137,7 @@ const mapStateToProps = (state) => {
     food: state.orderToApi,
     result: state.result,
     resultModal: state.resultModal,
+    orderToApi: state.orderToApi,
   };
 };
 
