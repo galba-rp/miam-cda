@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import Day from "../../components/Day/day";
 import Button from "../../components/UI/Button/button";
 import Modal from "../../components/UI/Modal/modal";
-import axios from "../../axios-miam";
 import Results from "../../components/Results/results";
 import { connect } from "react-redux";
 import * as menuCreateActions from "../../store/actions/indexAct";
@@ -11,16 +10,16 @@ import * as menuCreateActions from "../../store/actions/indexAct";
 class MenuCreation extends Component {
   state = {};
 
-  // back-end connection if orderToApi created
-  componentDidMount() {
-  if (this.props.orderToApi.order) {
-    this.props.getResult(this.props.food)
-  }
+  // back-end connection will run only if orderToApi state changes
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.orderToApi !== this.props.orderToApi){
+      this.props.getResult(this.props.food)
+    }
   }
 
   // creating array from order and running menu function with chosen day
   calculateHandler = () => {
-    this.props.prepareOrder();
+   this.props.prepareOrder();
   };
 
   render() {
@@ -28,7 +27,6 @@ class MenuCreation extends Component {
     let togglePrev = false;
     let toggleNext = false;
     let calculateModal = false;
-    //console.log(this.props.week)
 
     // disabling next button  if one of the day's meals hasen't been ordered or if it is sunday
     this.props.week.map((day) => {

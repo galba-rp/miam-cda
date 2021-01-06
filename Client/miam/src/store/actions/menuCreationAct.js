@@ -68,7 +68,6 @@ export const getResult = (food) => {
         result.sushi = res.data[3];
         result.veg = res.data[4];
         dispatch(setResult(result));
-        console.log(result.lunch);
       })
       .catch((error) => dispatch(push("/error")));
   };
