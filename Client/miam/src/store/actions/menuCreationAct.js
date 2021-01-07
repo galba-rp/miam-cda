@@ -15,7 +15,7 @@ export const previousDay = () => {
 };
 
 export const mealChoice = (meal) => {
-  return {
+  return  {
     meal: meal,
     type: actionTypes.MEAL_CHOICE,
   };
@@ -38,9 +38,21 @@ export const setResult = (result) => {
   return {
     type: actionTypes.SET_RESULT,
     resultFromApi: result,
-    showModal: true,
   };
 };
+export const showResult = (value) => {
+  return {
+    type: actionTypes.SHOW_RESULT,
+    showModal: value,
+  };
+};
+
+export const totalOrder = () => {
+  return {
+    type: actionTypes.TOTAL_ORDER,
+  };
+};
+
 
 // converting digits received from api to emojis
 export const digitToEmoji = (digit) => {
@@ -68,6 +80,7 @@ export const getResult = (food) => {
         result.sushi = res.data[3];
         result.veg = res.data[4];
         dispatch(setResult(result));
+        dispatch(showResult(true));
       })
       .catch((error) => dispatch(push("/error")));
   };

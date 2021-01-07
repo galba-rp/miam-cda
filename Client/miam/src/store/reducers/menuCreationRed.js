@@ -52,8 +52,8 @@ const initialState = {
   selectedDay: 0,
   totalOrder: "",
   result: {
-    lunch: "",
     dinner: "",
+    lunch: "",
     pizza: 0,
     sushi: 0,
     veg: 0,
@@ -64,28 +64,76 @@ const initialState = {
   },
   resultModal: false,
 };
+// changing day number on next button click
+const nextDay = (state) => {
+  const updatedDay = { day: state.dayNumber.day + 1 };
+  const updateDay = updateObject(state.dayNumber, updatedDay);
+  const updatedState = { dayNumber: updateDay };
+  return updateObject(state, updatedState);
+};
+
+// changing day number on previous button click
+const previousDay = (state) => {
+  const updatedDay = { day: state.dayNumber.day - 1 };
+  const updateDay = updateObject(state.dayNumber, updatedDay);
+  const updatedState = { dayNumber: updateDay };
+  return updateObject(state, updatedState);
+};
+
+// saving result received from api to state
+const setResult = (state, action) => {
+  const updateResult = updateObject(state.result, action.resultFromApi);
+  const updatedState = { result: updateResult };
+  return updateObject(state, updatedState);
+};
+
+// once received date from api changing state of resultModal
+const setResultModal = (state, action) => {
+  const updatedResultModal = { resultModal: action.showModal };
+  const updateResultModal = updateObject(state.resultModal, updatedResultModal);
+  const updatedState = { resultModal: updateResultModal };
+  return updateObject(state, updatedState);
+};
+
+// saving selected day to state
+const dayChoice = (state, action) => {
+  const updatedChoice = { selectedDay: action.event.target.value };
+  const updateChoice = updateObject(state.selectedDay, updatedChoice);
+  return updateObject(state, updateChoice);
+};
+
+// changing state of orderToApi object according to selectedDay and totalOrder
+const prepareOrder = (state) => {
+  const orderArray = [];
+  for (let i of state.totalOrder) {
+    if (i === "🍕") {
+      i = 1;
+      orderArray.push(i);
+    }
+    if (i === "🍣") {
+      i = 0;
+      orderArray.push(i);
+    }
+    if (i === "🥦") {
+      i = -1;
+      orderArray.push(i);
+    }
+  }
+  const updatedOrder = {
+    order: orderArray,
+    day: state.selectedDay,
+  };
+  const updateOrder = updateObject(state.orderToApi, updatedOrder);
+  const updatedState = { orderToApi: updateOrder };
+  return updateObject(state, updatedState);
+};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    // changing day number on next button click
     case actionTypes.NEXT_DAY:
-      return {
-        ...state,
-        dayNumber: {
-          ...state.dayNumber,
-          day: state.dayNumber.day + 1,
-        },
-      };
-
-    // changing day number on previous button click
+      return nextDay(state);
     case actionTypes.PREVIOUS_DAY:
-      return {
-        ...state,
-        dayNumber: {
-          ...state.dayNumber,
-          day: state.dayNumber.day - 1,
-        },
-      };
+      return previousDay(state);
 
     // receives an array of emoji selected and meal name (lunch or dinner)
     // and updates state accordingly and then updates total result
@@ -108,48 +156,14 @@ const reducer = (state = initialState, action) => {
         }),
         totalOrder: totalOrd,
       };
-
-    // storing the day to calculate meals for
     case actionTypes.DAY_CHOICE:
-      return {
-        ...state,
-        selectedDay: [action.event.target.value],
-      };
-
+      return dayChoice(state, action);
     case actionTypes.PREPARE_ORDER:
-      const orderArray = [];
-      for (let i of state.totalOrder) {
-        if (i === "🍕") {
-          i = 1;
-          orderArray.push(i);
-        }
-        if (i === "🍣") {
-          i = 0;
-          orderArray.push(i);
-        }
-        if (i === "🥦") {
-          i = -1;
-          orderArray.push(i);
-        }
-      }
-      return {
-        ...state,
-        orderToApi: {
-          ...state.orderToApi,
-          order: orderArray,
-          day: state.selectedDay,
-        },
-      };
-
-    // saving result to state
+      return prepareOrder(state);
     case actionTypes.SET_RESULT:
-      console.log([action.resultFromApi]);
-      return {
-        ...state,
-        result: action.resultFromApi,
-        resultModal: action.showModal,
-      };
-
+      return setResult(state, action);
+    case actionTypes.SHOW_RESULT:
+      return setResultModal(state, action);
     default:
       return state;
   }

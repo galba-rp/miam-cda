@@ -5,4 +5,6 @@ export const DAY_CHOICE = 'DAY_CHOICE';
 export const PREPARE_ORDER = 'PREPARE_ORDER';
 export const GET_RESULT = 'GET_RESULT';
 export const SET_RESULT = 'SET_RESULT';
+export const SHOW_RESULT = 'SHOW_RESULT';
+export const TOTAL_ORDER = 'TOTAL_ORDER';
 export const CONVERT_TO_EMOJIS = ' CONVERT_TO_EMOJIS';
