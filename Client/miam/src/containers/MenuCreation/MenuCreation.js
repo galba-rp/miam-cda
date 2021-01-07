@@ -9,7 +9,6 @@ import * as menuCreateActions from "../../store/actions/indexAct";
 
 class MenuCreation extends Component {
   state = {};
-
   // back-end connection will run only if orderToApi state changes
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.orderToApi !== this.props.orderToApi){

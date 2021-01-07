@@ -1,14 +1,14 @@
 import classes from "./welcomePage.module.css";
-import React, { Component } from "react";
+import React from "react";
 import Layout from "../../HOC/Layout/layout";
 import Button from "../../components/UI/Button/button";
 
-class WelcomePage extends Component {
- 
-  handleMiam = () => {
-    this.props.history.push("/menu");
+
+const welcomePage = (props) => {
+  const handleMiam = () => {
+    props.history.push("/menu");
   };
-  render() {
+
     return (
       <Layout>
         <div className={classes.Conatiner}>
@@ -16,7 +16,7 @@ class WelcomePage extends Component {
           <p className={classes.Second}>" BECAUSE WE CARE !!! " </p>
           <Button
             btnType={"LargeButton"}
-            clicked={this.handleMiam}
+            clicked={handleMiam}
             disabled={false}
           >
             MIAM
@@ -24,7 +24,6 @@ class WelcomePage extends Component {
         </div>
       </Layout>
     );
-  }
 }
 
-export default WelcomePage;
+export default welcomePage;

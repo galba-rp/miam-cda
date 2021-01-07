@@ -134,7 +134,14 @@ const reducer = (state = initialState, action) => {
       return nextDay(state);
     case actionTypes.PREVIOUS_DAY:
       return previousDay(state);
-
+    case actionTypes.DAY_CHOICE:
+      return dayChoice(state, action);
+    case actionTypes.PREPARE_ORDER:
+      return prepareOrder(state);
+    case actionTypes.SET_RESULT:
+      return setResult(state, action);
+    case actionTypes.SHOW_RESULT:
+      return setResultModal(state, action);
     // receives an array of emoji selected and meal name (lunch or dinner)
     // and updates state accordingly and then updates total result
     case actionTypes.MEAL_CHOICE:
@@ -156,14 +163,29 @@ const reducer = (state = initialState, action) => {
         }),
         totalOrder: totalOrd,
       };
-    case actionTypes.DAY_CHOICE:
-      return dayChoice(state, action);
-    case actionTypes.PREPARE_ORDER:
-      return prepareOrder(state);
-    case actionTypes.SET_RESULT:
-      return setResult(state, action);
-    case actionTypes.SHOW_RESULT:
-      return setResultModal(state, action);
+    case actionTypes.HOME_PAGE:
+      return {
+        ...state,
+        ...state.week.map((day) => {
+          day.lunch = "";
+          day.dinner = "";
+        }),
+        totalOrder: "",
+        dayNumber: {
+          ...state.dayNumber,
+          day: 0,
+        },
+        selectedDay: 0,
+        result: {
+          ...state.result,
+          dinner: "",
+          lunch: "",
+          pizza: 0,
+          sushi: 0,
+          veg: 0,
+        },
+        resultModal: false,
+      };
     default:
       return state;
   }
