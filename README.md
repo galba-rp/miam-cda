@@ -17,11 +17,11 @@ Description of the task is here: https://github.com/greta-vannes/test-cda-2
 
 ## TO DO
 
-- ~~ add Redux ~~
+- ~~add Redux
 - add Authorisation
 - add DB
 - add spinner
-- ~~ add media queries for lower resolution screens ~~
+- ~~add media queries for lower resolution screens
 
 ## Issues
 
