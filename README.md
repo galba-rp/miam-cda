@@ -1,6 +1,6 @@
 ## MIAM
 
-Miam is a test project.
+Miam is aa entry test project for "Application developer" course at GRETA Vannes
 Description of the task is here: https://github.com/greta-vannes/test-cda-2
 - Project link https://cda-miam.herokuapp.com/
 
